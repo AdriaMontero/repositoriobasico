@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre con Mensaje</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffdde1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sobre {
+            width: 300px;
+            height: 200px;
+            background: #ff4d6d;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .tapa {
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 90px solid #ff1e50;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: transform 0.5s;
+            border-radius: 10px;
+        }
+
+        .carta {
+            width: 260px;
+            height: 150px;
+            background: white;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-align: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .sobre.abierto .tapa {
+            transform: rotateX(180deg);
+        }
+
+        .sobre.abierto .carta {
+            opacity: 1;
+        }
+
+        .corazon, .foto {
+            position: absolute;
+            animation: flotar 4s infinite linear;
+        }
+
+        .corazon {
+            color: red;
+            font-size: 24px;
+        }
+
+        .foto {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        @keyframes flotar {
+            0% { transform: translateY(0px) translateX(0px); opacity: 1; }
+            50% { transform: translateY(-100px) translateX(30px); opacity: 0.8; }
+            100% { transform: translateY(-200px) translateX(-30px); opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .sobre {
+                width: 250px;
+                height: 150px;
+            }
+
+            .tapa {
+                border-left: 125px solid transparent;
+                border-right: 125px solid transparent;
+                border-bottom: 75px solid #ff1e50;
+            }
+
+            .carta {
+                width: 220px;
+                height: 120px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sobre" onclick="abrirSobre()">
+        <div class="tapa"></div>
+        <div class="carta">
+            <p><strong>Gmail:</strong> adobemariagb@gmail.com</p>
+            <p><strong>Contraseña:</strong> TeAmoMucho2004</p>
+        </div>
+    </div>
+    
+    <script>
+        function abrirSobre() {
+            document.querySelector('.sobre').classList.toggle('abierto');
+            for (let i = 0; i < 50; i++) {
+                let elemento;
+                if (Math.random() > 0.5) {
+                    elemento = document.createElement('div');
+                    elemento.classList.add('corazon');
+                    elemento.innerHTML = '❤️';
+                } else {
+                    elemento = document.createElement('img');
+                    elemento.classList.add('foto');
+                    elemento.src = `img/foto${Math.floor(Math.random() * 3) + 1}.jpg`;
+                }
+                elemento.style.left = Math.random() * window.innerWidth + 'px';
+                elemento.style.top = window.innerHeight + 'px';
+                document.body.appendChild(elemento);
+                
+                elemento.animate([
+                    { transform: 'translateY(0px)', opacity: 1 },
+                    { transform: 'translateY(-100vh)', opacity: 0 }
+                ], {
+                    duration: 4000 + Math.random() * 2000,
+                    iterations: 1,
+                    easing: 'linear',
+                    fill: 'forwards'
+                });
+                
+                setTimeout(() => elemento.remove(), 6000);
+            }
+        }
+    </script>
+</body>
+</html>
